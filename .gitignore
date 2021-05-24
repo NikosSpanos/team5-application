@@ -1,4 +1,1 @@
-/development_environment/*.tf
-/development_environment/*.backup
-/development_environment/*.tfstate
 /development_environment/.terraform/

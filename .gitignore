@@ -1,1 +1,5 @@
 /development_environment/.terraform/
+/development_environment/.terraform.tfstate
+/production_environment/.terraform/
+/production_environment/.terraform.tfstate
+/TBD/

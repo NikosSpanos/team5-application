@@ -1,24 +1,13 @@
 variable "location" {
-	type = string
-	default = "westeurope"
+	description = "Resource group location"
 }
 
 variable "prefix" {
-  type    = string
-  default = "production"
-}
-
-variable "tags" {
-  type = map
-
-  default = {
-    Environment = "Production"
-    Version = "1"
-    Team = "Team 5"
-  }
+  description = "Resource group prefix (i.e development/ production)"
 }
 
 variable "admin_username" {
+  description = "username for vm instance"
   default = "codehubTeam5"
 }
 

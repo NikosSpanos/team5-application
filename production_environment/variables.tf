@@ -4,7 +4,6 @@ variable "location" {
 }
 
 variable "prefix" {
-  type    = string
   default = "production"
 }
 
@@ -18,19 +17,19 @@ variable "tags" {
   }
 }
 
-variable "docker_image" {
-	description = "Docker image name"
-  default = "mysql_image"
-}  
-
-variable "docker_image_tag" {
-	description = "Docker image tag"
-  default = "mysql image for production"
+variable "mysql_master_username" {
+	description = "MySql server master username"
+	default = "codehubTeam5"
 }
 
 variable "mysql_master_password" {
 	description = "MySql server master password"
-  default = "CodeHubTeam5!@"
+  default = "H@Sh1CoR3!"
+}
+
+variable "admin_username" {
+  description = "username for vm instance"
+  default = "codehubTeam5"
 }
 
 variable "subscription_id"{

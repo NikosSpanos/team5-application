@@ -8,29 +8,32 @@ terraform {
   }
 }
 
+#Random id generator for unique server names
+resource "random_string" "string_server" {
+	  length  = 8
+    lower = true
+    upper = false
+    special = false
+}
+
 #MySQL server
 resource "azurerm_mysql_server" "mysql_server_prod" {
-  name                = "${var.prefix}-mysql-server1"
-  location            = var.location
-  resource_group_name = var.rg.name
-  sku_name     = "B_Gen5_2"
-  
-  #storage profile has been deprecated, included values need to be moved on the upper level
-  storage_profile {
-	  storage_mb = 5120
-      backup_retention_days = 7
-	  geo_redundant_backup  = "Disabled"
-  }
-
+  name                         = "${random_string.string_server.result}-team5server"
+  location                     = var.location
+  resource_group_name          = var.rg.name
+  sku_name                     = "B_Gen5_2"
+  storage_mb                   = 5120
   administrator_login          = var.mysql_master_username
   administrator_login_password = var.mysql_master_password
   version                      = "5.7"
-  ssl_enforcement              = "Disabled"
+  ssl_enforcement_enabled       = false
+  public_network_access_enabled = true
+  geo_redundant_backup_enabled  = false
 }
 
 # This is the database that the application will use
 resource "azurerm_mysql_database" "mysql_db_prod" {
-  name                = "${var.prefix}_mysql_db"
+  name                = "${var.prefix}-mysql-db"
   resource_group_name = var.rg.name
   server_name         = azurerm_mysql_server.mysql_server_prod.name
   charset             = "utf8"

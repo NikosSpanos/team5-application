@@ -1,16 +1,14 @@
 variable "location" {
-	type = string
-	default = "westeurope"
+	description = "Resource group location"
 }
 
 variable "prefix" {
-  type    = string
-  default = "production"
+  description = "Resource group prefix (i.e development/ production)"
 }
 
 variable "mysql_master_username" {
 	description = "MySql server master username"
-	default = "rootteam5"
+	default = "codehubTeam5"
 }
 
 variable "mysql_master_password" {

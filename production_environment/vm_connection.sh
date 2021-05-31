@@ -3,13 +3,11 @@
 set -v
 set -x
 
+chmod 600 ./private-key-connector
+
 file_key="./private-key-connector"
 file_ip="./public-ip-value"
 
-privkey = $(cat $file_key)
-ipaddress = $(cat $file_ip)
+ipaddress=$(cat $file_ip)
 
-echo $privkey
-echo $ipaddress
-
-ssh -i $privkey codehubTeam5@$ipaddress
+ssh -i $file_key codehubTeam5@$ipaddress

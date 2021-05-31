@@ -1,5 +1,7 @@
 /development_environment/.terraform/
 /development_environment/terraform.tfstate
+/development_environment/.terraform.lock.hcl
+/development_environment/terraform.tfstate.backup
 /production_environment/.terraform/
 /production_environment/terraform.tfstate
 /production_environment/modules/*.pem

@@ -7,4 +7,5 @@
 /production_environment/modules/*.pem
 /production_environment/.terraform.lock.hcl
 /production_environment/terraform.tfstate.backup
+production_environment/.terraform.tfstate.lock.info
 /TBD

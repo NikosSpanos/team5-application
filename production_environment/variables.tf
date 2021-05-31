@@ -4,14 +4,14 @@ variable "location" {
 }
 
 variable "prefix" {
-  default = "production"
+	type = string
+	description = "Accepted values are development/production (those differentiate the pipeline infrastructure)"
 }
 
 variable "tags" {
   type = map
-
   default = {
-    Environment = "Production"
+    Environment = "Infrastructure Pipeline"
     Version = "1"
     Team = "Team 5"
   }

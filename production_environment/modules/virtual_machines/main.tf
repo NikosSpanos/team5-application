@@ -125,6 +125,6 @@ resource "azurerm_virtual_machine" "vm_prod" {
 # Use this data source to access information about an existing Public IP Address.
 data "azurerm_public_ip" "public_ip_prod" {
   name                = azurerm_public_ip.public_ip_prod.name
-  resource_group_name = azurerm_virtual_machine.vm_prod.resource_group_name #Why we configure both Public IP and Azure Network Interface (ANI)
+  resource_group_name = azurerm_virtual_machine.vm_prod.resource_group_name
   depends_on          = [azurerm_virtual_machine.vm_prod]
 }

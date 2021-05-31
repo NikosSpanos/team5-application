@@ -1,6 +1,6 @@
 /development_environment/.terraform/
-/development_environment/.terraform.tfstate
+/development_environment/terraform.tfstate
 /production_environment/.terraform/
-/production_environment/.terraform.tfstate
-/production_environment/modules/private_connection_key.pem
+/production_environment/terraform.tfstate
+/production_environment/modules/*.pem
 /TBD

@@ -7,7 +7,9 @@
 /development_environment/private-key-connector
 /development_environment/public-ip-value
 /development_environment/development-private-key-connector
+/development_environment/production-private-key-connector
 /development_environment/development-public-ip-value
+/development_environment/production-public-ip-value
 /production_environment/.terraform/
 /production_environment/terraform.tfstate
 /production_environment/modules/*.pem

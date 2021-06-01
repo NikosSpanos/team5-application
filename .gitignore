@@ -1,4 +1,13 @@
-/development_environment/
+/development_environment/.terraform/
+/development_environment/terraform.tfstate
+/development_environment/modules/*.pem
+/development_environment/.terraform.lock.hcl
+/development_environment/terraform.tfstate.backup
+/development_environment/.terraform.tfstate.lock.info
+/development_environment/private-key-connector
+/development_environment/public-ip-value
+/development_environment/development-private-key-connector
+/development_environment/development-public-ip-value
 /production_environment/.terraform/
 /production_environment/terraform.tfstate
 /production_environment/modules/*.pem

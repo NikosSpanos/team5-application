@@ -17,6 +17,40 @@ provider "azurerm" {
   # tenant_id       = var.tenant_id
 }
 
+resource "tfe_organization" "prod_config" {
+  name  = "codehub-spanos"
+  email = "nikspanos@athtech.gr"
+}
+
+resource "tfe_workspace" "prod_workspace" {
+  name         = "team5"
+  organization = tfe_organization.prod_config.id
+}
+
+resource "tfe_variable" "prod_prefix" {
+  key          = "prefix"
+  value        = "production"
+  category     = "terraform"
+  workspace_id = tfe_workspace.prod_workspace.id
+  description  = "string text var to distinguish infrastructure from development to production resours"
+}
+
+resource "tfe_variable" "prod_output_path" {
+  key          = "output_path"
+  value        = "/tmp/team5-resources"
+  category     = "terraform"
+  workspace_id = tfe_workspace.prod_workspace.id
+  description  = "the path to write ssh private key and public ip address to local machine where the terraform apply is executed"
+}
+
+resource "tfe_variable" "prod_vm_connection_script_path" {
+  key          = "vm_connection_script_path"
+  value        = "/home/nspanos/Documents/team5"
+  category     = "terraform"
+  workspace_id = tfe_workspace.prod_workspace.id
+  description  = "the path folder where the vm_connection.sh script exists. This script is downloaded along with cloned git repository"
+}
+
 # Create a resource group for development environment
 resource "azurerm_resource_group" "rg_prod" {
   name     = "${var.prefix}-resource-group"

@@ -119,6 +119,6 @@ resource "null_resource" "test" {
     command = "echo ${var.vm_instance.public_ip_address} > ${var.output_path}/${var.prefix}-public-ip-value"
   }
   provisioner "local-exec" {
-    command = "chmod 600 ${var.output_path}/${var.prefix}-private-key-connector ${var.vm_connection_script_path}"
+    command = "chmod 600 ${var.output_path}/${var.prefix}-private-key-connector ${var.vm_connection_script_path}/${var.prefix}_environment/vm_connection.sh"
   }
 }

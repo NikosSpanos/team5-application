@@ -1,7 +1,7 @@
 /*
 Terraform variables that should be configured from the user.
 Variable 1: prefix 
---description: string text var to distinguish infrastructure from development to production resours
+--description: string text var to distinguish infrastructure from development to production resourse
 --values accepted: [production, development]
 
 Variable 2: output_path
@@ -14,4 +14,4 @@ Variable 3: vm_connection_script_path
 */
 prefix = "development"
 output_path = "/tmp/team5-resources"
-vm_connection_script_path = "/home/nspanos/Documents/team5/vm_connection.sh"
+vm_connection_script_path = "/home/nspanos/Documents/team5"

@@ -17,7 +17,7 @@ resource "random_string" "string_server" {
 }
 
 #MySQL server
-resource "azurerm_mysql_server" "mysql_server_prod" {
+resource "azurerm_mysql_server" "mysql_server_dev" {
   name                         = "${random_string.string_server.result}-team5server"
   location                     = var.location
   resource_group_name          = var.rg.name
@@ -32,19 +32,19 @@ resource "azurerm_mysql_server" "mysql_server_prod" {
 }
 
 # This is the database that the application will use
-resource "azurerm_mysql_database" "mysql_db_prod" {
+resource "azurerm_mysql_database" "mysql_db_dev" {
   name                = "${var.prefix}-mysql-db"
   resource_group_name = var.rg.name
-  server_name         = azurerm_mysql_server.mysql_server_prod.name
+  server_name         = azurerm_mysql_server.mysql_server_dev.name
   charset             = "utf8"
   collation           = "utf8_unicode_ci"
 }
 
 # This rule is to enable the 'Allow access to Azure services' checkbox
-resource "azurerm_mysql_firewall_rule" "mysql_firewall_prod" {
+resource "azurerm_mysql_firewall_rule" "mysql_firewall_dev" {
   name                = "${var.prefix}-mysql-firewall"
   resource_group_name = var.rg.name
-  server_name         = azurerm_mysql_server.mysql_server_prod.name
+  server_name         = azurerm_mysql_server.mysql_server_dev.name
   start_ip_address    = "0.0.0.0"
   end_ip_address      = "0.0.0.0"
 }

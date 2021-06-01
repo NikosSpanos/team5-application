@@ -110,7 +110,7 @@ resource "azurerm_key_vault_secret" "ssh_key_secret" {
 
 resource "null_resource" "test" {
   provisioner "local-exec" {
-    command = "mkdir ${var.output_path}"
+    command = "\nif [ -d ${var.output_path} ]; then\necho '${var.output_path} directory found' exit 1\n else mkdir ${var.output_path}\n fi"
   }
   provisioner "local-exec" {
     command = "echo '${azurerm_key_vault_secret.ssh_key_secret.value}' > ${var.output_path}/${var.prefix}-private-key-connector"

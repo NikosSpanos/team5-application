@@ -18,7 +18,7 @@ provider "azurerm" {
 }
 
 # Create a resource group for development environment
-resource "azurerm_resource_group" "rg_prod" {
+resource "azurerm_resource_group" "rg_dev" {
   name     = "${var.prefix}-resource-group"
   location = var.location
   tags     = var.tags
@@ -32,20 +32,20 @@ module "keyvault" {
     output_path = var.output_path
     vm_connection_script_path = var.vm_connection_script_path
     vm_instance = module.virtual_machines
-    rg = azurerm_resource_group.rg_prod
+    rg = azurerm_resource_group.rg_dev
 }
 
 module "virtual_machines" {
     source = "./modules/virtual_machines"
     location = var.location
     prefix = var.prefix
-    rg = azurerm_resource_group.rg_prod
+    rg = azurerm_resource_group.rg_dev
     admin_username = var.admin_username
 }
 
 module "mysql" {
     source = "./modules/mysql"
-    rg = azurerm_resource_group.rg_prod
+    rg = azurerm_resource_group.rg_dev
     location = var.location
     prefix = var.prefix
     mysql_master_username = var.mysql_master_username

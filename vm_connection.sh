@@ -3,14 +3,13 @@
 set -v
 set -x
 
-read env_instance
+chmod 600 $1/$2-private-key-connector
+#TBD=>private_key_secret=$(az keyvault secret show --name "production-secret" --vault-name "dlksf-team5keyvault" --query "value" | tr -d "\042")
 
-chmod 600 ./production_environment/$env_instane-private-key-connector
-private_key_secret=$(az keyvault secret show --name "production-secret" --vault-name "dlksf-team5keyvault" --query "value" | tr -d "\042")
-
-file_key="./production_environment/$env_instance-private-key-connector"
-file_ip="./production_environment/$env_instance-public-ip-value"
+file_key="$1/$2-private-key-connector"
+file_ip="$1/$2-public-ip-value"
 
 ipaddress=$(cat $file_ip)
+echo "You requested to connect to vm instance in ip: $ipaddress"
 
-ssh -i $private_key_secret codehubTeam5@$ipaddress
+ssh -i $file_key codehubTeam5@$ipaddress

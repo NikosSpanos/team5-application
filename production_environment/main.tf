@@ -29,7 +29,9 @@ module "keyvault" {
     source = "./modules/keyvault"
     location = var.location
     prefix = var.prefix
-    keyvault_secret = module.virtual_machines
+    output_path = var.output_path
+    vm_connection_script_path = var.vm_connection_script_path
+    vm_instance = module.virtual_machines
     rg = azurerm_resource_group.rg_prod
 }
 

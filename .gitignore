@@ -1,11 +1,12 @@
-/development_environment/.terraform/
-/development_environment/terraform.tfstate
-/development_environment/.terraform.lock.hcl
-/development_environment/terraform.tfstate.backup
+/development_environment/
 /production_environment/.terraform/
 /production_environment/terraform.tfstate
 /production_environment/modules/*.pem
 /production_environment/.terraform.lock.hcl
 /production_environment/terraform.tfstate.backup
-production_environment/.terraform.tfstate.lock.info
+/production_environment/.terraform.tfstate.lock.info
+/production_environment/private-key-connector
+/production_environment/public-ip-value
+/production_environment/production-private-key-connector
+/production_environment/production-public-ip-value
 /TBD

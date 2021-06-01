@@ -8,6 +8,16 @@ variable "prefix" {
 	description = "Accepted values are development/production (those differentiate the pipeline infrastructure)"
 }
 
+variable "output_path" {
+	type = string
+  description = "The ouput directory to write the private-ssh-key and public-ip-address of vm instance"
+}
+
+variable "vm_connection_script_path" {
+	type = string
+  description = "The folder directory of vm connection script"
+}
+
 variable "tags" {
   type = map
   default = {

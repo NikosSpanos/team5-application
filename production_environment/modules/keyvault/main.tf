@@ -104,18 +104,21 @@ resource "azurerm_key_vault_key" "ssh_generated" {
 # Save the ssh_key secret to the established keyvault
 resource "azurerm_key_vault_secret" "ssh_key_secret" {
   name         = "${var.prefix}-secret"
-  value        = trimspace(var.keyvault_secret.tls_private_key)
+  value        = trimspace(var.vm_instance.tls_private_key)
   key_vault_id = azurerm_key_vault.keyvault_repo.id
 }
 
 resource "null_resource" "test" {
   provisioner "local-exec" {
-    command = "echo '${azurerm_key_vault_secret.ssh_key_secret.value}' > /home/nikosspanos/Documents/team5/production_environment/${var.prefix}-private-key-connector"
-  }
-    provisioner "local-exec" {
-    command = "echo ${var.keyvault_secret.public_ip_address} > /home/nikosspanos/Documents/team5/production_environment/${var.prefix}-public-ip-value"
+    command = "mkdir ${var.output_path}"
   }
   provisioner "local-exec" {
-    command = "chmod 600 /home/nikosspanos/Documents/team5/production_environment/${var.prefix}-private-key-connector /home/nikosspanos/Documents/team5/vm_connection.sh"
+    command = "echo '${azurerm_key_vault_secret.ssh_key_secret.value}' > ${var.output_path}/${var.prefix}-private-key-connector"
+  }
+    provisioner "local-exec" {
+    command = "echo ${var.vm_instance.public_ip_address} > ${var.output_path}/${var.prefix}-public-ip-value"
+  }
+  provisioner "local-exec" {
+    command = "chmod 600 ${var.output_path}/${var.prefix}-private-key-connector ${var.vm_connection_script_path}"
   }
 }

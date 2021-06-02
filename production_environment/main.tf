@@ -6,15 +6,23 @@ terraform {
       version = ">= 2.26"
     }
   }
+  backend "remote" {
+    organization = "codehub-spanos"
+
+    workspaces {
+      name = "team5"
+    }
+  }
 }
 
 provider "azurerm" {
   features {}
   # This is used for creating a service principal connection with Azure. To connect with azure CLI simply comment out the following four lines
-  # subscription_id = var.subscription_id
-  # client_id       = var.client_appId
-  # client_secret   = var.client_password
-  # tenant_id       = var.tenant_id
+  #Owner
+  subscription_id = var.subscription_id
+  client_id       = var.client_appId
+  client_secret   = var.client_password
+  tenant_id       = var.tenant_id
 }
 
 resource "tfe_organization" "prod_config" {

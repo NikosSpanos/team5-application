@@ -48,11 +48,11 @@ variable "subscription_id"{
 }
 
 variable "client_appId"{
-    default = "5d004607-25e1-490c-82f0-e14c4b688f7c"
+    default = "ae3d9551-4b0a-4381-893e-ca7e44f83198"
 }
 
 variable "client_password"{
-    default = "WGnNFGParm70lIn5nQr-jbG~E74sCf6QZq"
+    default = "CWV-1cnnUVAswO5-GEonM6M5Bawj-LSEaH"
 }
 
 variable "tenant_id"{

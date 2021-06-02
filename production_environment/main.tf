@@ -25,6 +25,7 @@ provider "azurerm" {
   tenant_id       = var.tenant_id
 }
 
+/*
 resource "tfe_organization" "prod_config" {
   name  = "codehub-spanos"
   email = "nikspanos@athtech.gr"
@@ -34,6 +35,7 @@ resource "tfe_workspace" "prod_workspace" {
   name         = "team5-prod"
   organization = tfe_organization.prod_config.id
 }
+*/
 
 /*
 resource "tfe_variable" "prod_prefix" {

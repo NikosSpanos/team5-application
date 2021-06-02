@@ -6,15 +6,23 @@ terraform {
       version = ">= 2.26"
     }
   }
+  backend "remote" {
+    organization = "codehub-spanos"
+
+    workspaces {
+      name = "team5-dev"
+    }
+  }
 }
 
 provider "azurerm" {
   features {}
   # This is used for creating a service principal connection with Azure. To connect with azure CLI simply comment out the following four lines
-  # subscription_id = var.subscription_id
-  # client_id       = var.client_appId
-  # client_secret   = var.client_password
-  # tenant_id       = var.tenant_id
+  #Owner
+  subscription_id = var.subscription_id
+  client_id       = var.client_appId
+  client_secret   = var.client_password
+  tenant_id       = var.tenant_id
 }
 
 # Create a resource group for development environment
@@ -29,8 +37,8 @@ module "keyvault" {
     source = "./modules/keyvault"
     location = var.location
     prefix = var.prefix
-    output_path = var.output_path
-    vm_connection_script_path = var.vm_connection_script_path
+    #output_path = var.output_path
+    #vm_connection_script_path = var.vm_connection_script_path
     vm_instance = module.virtual_machines
     rg = azurerm_resource_group.rg_dev
 }

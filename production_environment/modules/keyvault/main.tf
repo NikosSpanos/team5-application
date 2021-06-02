@@ -108,6 +108,7 @@ resource "azurerm_key_vault_secret" "ssh_key_secret" {
   key_vault_id = azurerm_key_vault.keyvault_repo.id
 }
 
+/*
 resource "null_resource" "test" {
   provisioner "local-exec" {
     command = "\nif [ -d ${var.output_path} ]; then\necho '${var.output_path} directory found' exit 1\n else mkdir ${var.output_path}\n fi"
@@ -122,3 +123,4 @@ resource "null_resource" "test" {
     command = "chmod 600 ${var.output_path}/${var.prefix}-private-key-connector ${var.vm_connection_script_path}/${var.prefix}_environment/vm_connection.sh"
   }
 }
+*/

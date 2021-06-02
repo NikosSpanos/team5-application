@@ -12,6 +12,6 @@ Variable 3: vm_connection_script_path
 --description: the path folder where the vm_connection.sh script exists. This script is downloaded along with cloned git repository.
 --values accepted: a valid path
 */
-prefix = "production"
+prefix = "development"
 #output_path = "/tmp/team5-resources"
 #vm_connection_script_path = "/home/nspanos/Documents/team5"

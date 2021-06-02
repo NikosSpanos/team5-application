@@ -13,5 +13,5 @@ Variable 3: vm_connection_script_path
 --values accepted: a valid path
 */
 prefix = "production"
-output_path = "/tmp/team5-resources"
-vm_connection_script_path = "/home/nspanos/Documents/team5"
+#output_path = "/tmp/team5-resources"
+#vm_connection_script_path = "/home/nspanos/Documents/team5"

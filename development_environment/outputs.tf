@@ -38,6 +38,7 @@ output "output_public_ip" {
   value = module.virtual_machines.public_ip_address
 }
 
+/*
 output "output_path" {
   value = var.output_path
 }
@@ -45,3 +46,4 @@ output "output_path" {
 output "vm_connection_script_path" {
   value = var.vm_connection_script_path
 }
+*/

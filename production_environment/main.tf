@@ -10,7 +10,7 @@ terraform {
     organization = "codehub-spanos"
 
     workspaces {
-      name = "team5"
+      name = "team5-prod"
     }
   }
 }
@@ -31,10 +31,11 @@ resource "tfe_organization" "prod_config" {
 }
 
 resource "tfe_workspace" "prod_workspace" {
-  name         = "team5"
+  name         = "team5-prod"
   organization = tfe_organization.prod_config.id
 }
 
+/*
 resource "tfe_variable" "prod_prefix" {
   key          = "prefix"
   value        = "production"
@@ -58,6 +59,7 @@ resource "tfe_variable" "prod_vm_connection_script_path" {
   workspace_id = tfe_workspace.prod_workspace.id
   description  = "the path folder where the vm_connection.sh script exists. This script is downloaded along with cloned git repository"
 }
+*/
 
 # Create a resource group for development environment
 resource "azurerm_resource_group" "rg_prod" {
@@ -71,8 +73,8 @@ module "keyvault" {
     source = "./modules/keyvault"
     location = var.location
     prefix = var.prefix
-    output_path = var.output_path
-    vm_connection_script_path = var.vm_connection_script_path
+    #output_path = var.output_path
+    #vm_connection_script_path = var.vm_connection_script_path
     vm_instance = module.virtual_machines
     rg = azurerm_resource_group.rg_prod
 }

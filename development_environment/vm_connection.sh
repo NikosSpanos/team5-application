@@ -1,7 +1,7 @@
 #!/bin/bash
 
-set -v
-set -x
+#set -v
+#set -x
 
 # chmod 600 $1/$2-private-key-connector
 #TBD=>private_key_secret=$(az keyvault secret show --name "production-secret" --vault-name "dlksf-team5keyvault" --query "value" | tr -d "\042")

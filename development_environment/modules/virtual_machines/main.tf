@@ -9,7 +9,7 @@ terraform {
 }
 
 # Create virtual network
-resource "azurerm_virtual_network" "vnet_prod" {
+resource "azurerm_virtual_network" "vnet_dev" {
     name                = "${var.prefix}-vnet"
     address_space       = ["10.0.0.0/16"]
     location            = var.location
@@ -17,15 +17,15 @@ resource "azurerm_virtual_network" "vnet_prod" {
 }
 
 # Create subnet
-resource "azurerm_subnet" "subnet_prod" {
+resource "azurerm_subnet" "subnet_dev" {
     name                 = "${var.prefix}-subnet"
     resource_group_name  = var.rg.name
-    virtual_network_name = azurerm_virtual_network.vnet_prod.name
+    virtual_network_name = azurerm_virtual_network.vnet_dev.name
     address_prefixes     = ["10.0.1.0/24"]
 }
 
 # Create Public HTTP access
-resource "azurerm_public_ip" "public_ip_prod" {
+resource "azurerm_public_ip" "public_ip_dev" {
   name                = "${var.prefix}-publicIP"
   resource_group_name = var.rg.name
   location            = var.location
@@ -34,7 +34,7 @@ resource "azurerm_public_ip" "public_ip_prod" {
 
 # Create Network Security Group and rule
 # Network Security Groups control the flow of network traffic in and out of your VM.
-resource "azurerm_network_security_group" "nsg_prod" {
+resource "azurerm_network_security_group" "nsg_dev" {
   name                = "${var.prefix}-nsg"
   location            = var.location
   resource_group_name = var.rg.name
@@ -53,44 +53,44 @@ resource "azurerm_network_security_group" "nsg_prod" {
 }
 
 # Create network interface
-resource "azurerm_network_interface" "nic_prod" {
+resource "azurerm_network_interface" "nic_dev" {
     name                      = "${var.prefix}-nic"
     location                  = var.location
     resource_group_name       = var.rg.name
 
     ip_configuration {
         name                          = "${var.prefix}-nic_conf"
-        subnet_id                     = azurerm_subnet.subnet_prod.id
+        subnet_id                     = azurerm_subnet.subnet_dev.id
         private_ip_address_allocation = "Dynamic"
-        public_ip_address_id          = azurerm_public_ip.public_ip_prod.id
+        public_ip_address_id          = azurerm_public_ip.public_ip_dev.id
     }
 }
 
 # Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "nic_security_prod" {
-    network_interface_id      = azurerm_network_interface.nic_prod.id
-    network_security_group_id = azurerm_network_security_group.nsg_prod.id
+resource "azurerm_network_interface_security_group_association" "nic_security_dev" {
+    network_interface_id      = azurerm_network_interface.nic_dev.id
+    network_security_group_id = azurerm_network_security_group.nsg_dev.id
 }
 
 # SSH key generated for accessing VM
-resource "tls_private_key" "ssh_prod" {
+resource "tls_private_key" "ssh_dev" {
   algorithm = "RSA"
   rsa_bits = 4096
 }
 
 # After ssh private key is generated, save it to local file to test connection with the created vm instance
 resource "local_file" "private_key" {
-  content         = trimspace(tls_private_key.ssh_prod.private_key_pem)
+  content         = trimspace(tls_private_key.ssh_dev.private_key_pem)
   filename        = "modules/private_connection_key.pem"
   file_permission = "0600"
 }
 
 # Create a Linux virtual machine
-resource "azurerm_virtual_machine" "vm_prod" {
+resource "azurerm_virtual_machine" "vm_dev" {
   name                  = "${var.prefix}-vm"
   location              = var.location
   resource_group_name   = var.rg.name
-  network_interface_ids = [azurerm_network_interface.nic_prod.id]
+  network_interface_ids = [azurerm_network_interface.nic_dev.id]
   vm_size               = "Standard_DS1_v2"
 
   storage_os_disk {
@@ -116,15 +116,15 @@ resource "azurerm_virtual_machine" "vm_prod" {
     disable_password_authentication = true
     ssh_keys {
         path     = "/home/${var.admin_username}/.ssh/authorized_keys"
-        key_data = "${chomp(tls_private_key.ssh_prod.public_key_openssh)}"
+        key_data = "${chomp(tls_private_key.ssh_dev.public_key_openssh)}"
     }
   }
 }
 
 # data source
 # Use this data source to access information about an existing Public IP Address.
-data "azurerm_public_ip" "public_ip_prod" {
-  name                = azurerm_public_ip.public_ip_prod.name
-  resource_group_name = azurerm_virtual_machine.vm_prod.resource_group_name
-  depends_on          = [azurerm_virtual_machine.vm_prod]
+data "azurerm_public_ip" "public_ip_dev" {
+  name                = azurerm_public_ip.public_ip_dev.name
+  resource_group_name = azurerm_virtual_machine.vm_dev.resource_group_name
+  depends_on          = [azurerm_virtual_machine.vm_dev]
 }

@@ -78,12 +78,14 @@ resource "tls_private_key" "ssh_dev" {
   rsa_bits = 4096
 }
 
+/*
 # After ssh private key is generated, save it to local file to test connection with the created vm instance
 resource "local_file" "private_key" {
   content         = trimspace(tls_private_key.ssh_dev.private_key_pem)
   filename        = "modules/private_connection_key.pem"
   file_permission = "0600"
 }
+*/
 
 # Create a Linux virtual machine
 resource "azurerm_virtual_machine" "vm_dev" {
@@ -118,6 +120,24 @@ resource "azurerm_virtual_machine" "vm_dev" {
         path     = "/home/${var.admin_username}/.ssh/authorized_keys"
         key_data = "${chomp(tls_private_key.ssh_dev.public_key_openssh)}"
     }
+  }
+
+  connection {
+      type        = "ssh"
+      user        = "${var.admin_username}"
+      private_key = "${chomp(tls_private_key.ssh_dev.private_key_pem)}"
+      host        = "${azurerm_public_ip.public_ip_dev.ip_address}"
+  }
+
+  provisioner "remote-exec" {
+
+    inline = [
+      "sudo apt update",
+      "sudo apt install -y software-properties-common",
+      "sudo add-apt-repository --yes --update ppa:ansible/ansible",
+      "sudo apt install -y ansible",
+      "sudo ansible --version"
+    ]
   }
 }
 

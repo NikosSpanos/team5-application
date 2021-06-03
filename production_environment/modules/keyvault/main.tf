@@ -11,7 +11,7 @@ resource "random_string" "string_keyvault" {
 }
 
 # Create keyvault
-resource "azurerm_key_vault" "keyvault_repo" {
+resource "azurerm_key_vault" "keyvault_repo_prod" {
   depends_on                      = [ var.rg ]
   name                            = "${random_string.string_keyvault.result}-team5keyvault"
   location                        = var.location
@@ -85,6 +85,7 @@ resource "azurerm_key_vault" "keyvault_repo" {
   }
 }
 
+/*
 resource "azurerm_key_vault_key" "ssh_generated" {
   name         = "${var.prefix}-generated-certificate"
   key_vault_id = azurerm_key_vault.keyvault_repo.id
@@ -100,12 +101,13 @@ resource "azurerm_key_vault_key" "ssh_generated" {
     "wrapKey",
   ]
 }
+*/
 
 # Save the ssh_key secret to the established keyvault
 resource "azurerm_key_vault_secret" "ssh_key_secret" {
   name         = "${var.prefix}-secret"
   value        = trimspace(var.vm_instance.tls_private_key)
-  key_vault_id = azurerm_key_vault.keyvault_repo.id
+  key_vault_id = azurerm_key_vault.keyvault_repo_prod.id
 }
 
 /*

@@ -32,17 +32,6 @@ resource "azurerm_resource_group" "rg_dev" {
   tags     = var.tags
 }
 
-# https://github.com/marlinspike/terraform-azure-vms/blob/master/variables.tf
-module "keyvault" {
-    source = "./modules/keyvault"
-    location = var.location
-    prefix = var.prefix
-    #output_path = var.output_path
-    #vm_connection_script_path = var.vm_connection_script_path
-    vm_instance = module.virtual_machines
-    rg = azurerm_resource_group.rg_dev
-}
-
 module "virtual_machines" {
     source = "./modules/virtual_machines"
     location = var.location

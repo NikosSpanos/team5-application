@@ -128,6 +128,13 @@ resource "azurerm_virtual_machine" "vm_prod" {
       "sudo apt install ansible",
       "sudo ansible --version"
     ]
+
+    connection {
+      type        = "ssh"
+      user        = "${var.admin_username}"
+      private_key = "${chomp(tls_private_key.ssh_prod.private_key_pem)}"
+      host        = "${azurerm_public_ip.public_ip_prod.ip_address}"
+    }
   }
 }
 

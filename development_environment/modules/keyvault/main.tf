@@ -22,9 +22,9 @@ resource "azurerm_key_vault" "keyvault_repo_dev" {
   tenant_id                       = data.azurerm_client_config.current.tenant_id
   purge_protection_enabled        = false
   soft_delete_retention_days      = 8
-
   sku_name = "standard"
 
+  /*
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = data.azurerm_client_config.current.object_id
@@ -78,11 +78,30 @@ resource "azurerm_key_vault" "keyvault_repo_dev" {
       "get",
     ]
   }
+  */
 
   contact {
     email = "nspanos@athtech.gr"
     name = "Nikos Spanos"
   }
+}
+
+resource "azurerm_key_vault_access_policy" "keyvault_access_policy_dev" {
+  key_vault_id = azurerm_key_vault.keyvault_repo_dev.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = data.azurerm_client_config.current.object_id
+
+  certificate_permissions =  [
+    "ManageContacts", "List"
+  ]
+  
+  key_permissions = [
+    "Get", "List"
+  ]
+
+  secret_permissions = [
+    "Get", "List",
+  ]
 }
 
 /*
@@ -104,7 +123,7 @@ resource "azurerm_key_vault_key" "ssh_generated" {
 */
 
 # Save the ssh_key secret to the established keyvault
-resource "azurerm_key_vault_secret" "ssh_key_secret" {
+resource "azurerm_key_vault_secret" "ssh_key_secret_dev" {
   name         = "${var.prefix}-secret"
   value        = trimspace(var.vm_instance.tls_private_key)
   key_vault_id = azurerm_key_vault.keyvault_repo_dev.id

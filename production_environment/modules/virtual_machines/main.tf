@@ -116,8 +116,18 @@ resource "azurerm_virtual_machine" "vm_prod" {
     disable_password_authentication = true
     ssh_keys {
         path     = "/home/${var.admin_username}/.ssh/authorized_keys"
-        key_data = "${chomp(tls_private_key.ssh_prod.public_key_openssh)}"
+        key_data = "${chomp(tls_private_key.ssh_prod.public_key_openssh)}" #this openssh connection key will help to connect with Ansible
     }
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt update",
+      "sudo apt install software-properties-common",
+      "sudo add-apt-repository --yes --update ppa:ansible/ansible",
+      "sudo apt install ansible",
+      "sudo ansible --version"
+    ]
   }
 }
 

@@ -78,12 +78,14 @@ resource "tls_private_key" "ssh_prod" {
   rsa_bits = 4096
 }
 
+/*
 # After ssh private key is generated, save it to local file to test connection with the created vm instance
 resource "local_file" "private_key" {
   content         = trimspace(tls_private_key.ssh_prod.private_key_pem)
   filename        = "modules/private_connection_key.pem"
   file_permission = "0600"
 }
+*/
 
 # Create a Linux virtual machine
 resource "azurerm_virtual_machine" "vm_prod" {

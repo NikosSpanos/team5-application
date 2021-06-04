@@ -1,5 +1,19 @@
 #!/bin/bash
 
+if [ -f ./mykey ]; 
+then
+    rm -rf ./mykey
+fi
+
+if ! command -v jq
+then
+    echo "jq command was not found. Installing it..."
+    sudo apt-get install jq
+else
+    echo "jq command is installed in your system."
+    echo "Connecting to vm instance, please wait..."
+fi
+
 file_key_v2=$(terraform output -json | jq -r '.output_private_key.value' > ./mykey)
 file_ip_v2=$(terraform output -json | jq -r '.output_public_ip.value')
 

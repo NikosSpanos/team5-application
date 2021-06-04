@@ -38,18 +38,34 @@ resource "azurerm_network_security_group" "nsg_dev" {
   name                = "${var.prefix}-nsg"
   location            = var.location
   resource_group_name = var.rg.name
+}
 
-  security_rule {
-    name                       = "SSH"
-    priority                   = 1000
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
+resource "azurerm_network_security_rule" "ssh_rule_dev" {
+  name                        = "SSH"
+  priority                    = 1000
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "22"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.rg.name
+  network_security_group_name = azurerm_network_security_group.nsg_dev.name
+}
+
+resource "azurerm_network_security_rule" "http_rule_dev" {
+  name                        = "http_connection"
+  priority                    = 200
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "8080"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.rg.name
+  network_security_group_name = azurerm_network_security_group.nsg_dev.name
 }
 
 # Create network interface

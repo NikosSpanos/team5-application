@@ -115,7 +115,7 @@ resource "azurerm_virtual_machine" "vm_prod" {
 
   connection {
       type        = "ssh"
-      user        = "${var.admin_username}"
+      user        = "${var.admin_username}" #or root?
       private_key = "${chomp(tls_private_key.ssh_prod.private_key_pem)}"
       host        = "${azurerm_public_ip.public_ip_prod.ip_address}"
   }
@@ -124,7 +124,7 @@ resource "azurerm_virtual_machine" "vm_prod" {
 
     inline = [
       "sudo apt update",
-      "sudo apt install -y software-properties-common",
+      "sudo apt install software-properties-common",
       "sudo add-apt-repository --yes --update ppa:ansible/ansible",
       "sudo apt install -y ansible",
       "sudo ansible --version",

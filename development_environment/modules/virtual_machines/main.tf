@@ -147,6 +147,11 @@ resource "azurerm_virtual_machine" "vm_dev" {
       "sudo apt-get install -y openjdk-8-jdk"
     ]
   }
+
+  provisioner "file" {
+    source      = "install_start_jenkins.sh"
+    destination = "/tmp/install_start_jenkins.sh"
+  }
 }
 
 # data source

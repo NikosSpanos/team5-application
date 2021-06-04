@@ -150,7 +150,7 @@ resource "azurerm_virtual_machine" "vm_prod" {
 
   provisioner "file" {
     source      = "install_start_jenkins.sh"
-    destination = "/etc/install_start_jenkins.sh"
+    destination = "/tmp/install_start_jenkins.sh"
   }
 }
 

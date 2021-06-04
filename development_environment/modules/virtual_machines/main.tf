@@ -38,18 +38,34 @@ resource "azurerm_network_security_group" "nsg_dev" {
   name                = "${var.prefix}-nsg"
   location            = var.location
   resource_group_name = var.rg.name
+}
 
-  security_rule {
-    name                       = "SSH"
-    priority                   = 1000
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
+resource "azurerm_network_security_rule" "ssh_rule_dev" {
+  name                        = "SSH"
+  priority                    = 1000
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "22"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.rg.name
+  network_security_group_name = azurerm_network_security_group.nsg_dev.name
+}
+
+resource "azurerm_network_security_rule" "http_rule_dev" {
+  name                        = "http_connection"
+  priority                    = 200
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "8080"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.rg.name
+  network_security_group_name = azurerm_network_security_group.nsg_dev.name
 }
 
 # Create network interface
@@ -76,13 +92,6 @@ resource "azurerm_network_interface_security_group_association" "nic_security_de
 resource "tls_private_key" "ssh_dev" {
   algorithm = "RSA"
   rsa_bits = 4096
-}
-
-# After ssh private key is generated, save it to local file to test connection with the created vm instance
-resource "local_file" "private_key" {
-  content         = trimspace(tls_private_key.ssh_dev.private_key_pem)
-  filename        = "modules/private_connection_key.pem"
-  file_permission = "0600"
 }
 
 # Create a Linux virtual machine
@@ -118,6 +127,25 @@ resource "azurerm_virtual_machine" "vm_dev" {
         path     = "/home/${var.admin_username}/.ssh/authorized_keys"
         key_data = "${chomp(tls_private_key.ssh_dev.public_key_openssh)}"
     }
+  }
+
+  connection {
+      type        = "ssh"
+      user        = "${var.admin_username}"
+      private_key = "${chomp(tls_private_key.ssh_dev.private_key_pem)}"
+      host        = "${azurerm_public_ip.public_ip_dev.ip_address}"
+  }
+
+  provisioner "remote-exec" {
+
+    inline = [
+      "sudo apt update",
+      "sudo apt install -y software-properties-common",
+      "sudo add-apt-repository --yes --update ppa:ansible/ansible",
+      "sudo apt install -y ansible",
+      "sudo ansible --version",
+      "sudo apt-get install -y openjdk-8-jdk"
+    ]
   }
 }
 

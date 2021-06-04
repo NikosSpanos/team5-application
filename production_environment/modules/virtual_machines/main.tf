@@ -38,18 +38,34 @@ resource "azurerm_network_security_group" "nsg_prod" {
   name                = "${var.prefix}-nsg"
   location            = var.location
   resource_group_name = var.rg.name
+}
 
-  security_rule {
-    name                       = "SSH"
-    priority                   = 1000
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
+resource "azurerm_network_security_rule" "ssh_rule_prod" {
+  name                        = "SSH"
+  priority                    = 1000
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "22"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.rg.name
+  network_security_group_name = azurerm_network_security_group.nsg_prod.name
+}
+
+resource "azurerm_network_security_rule" "http_rule_prod" {
+  name                        = "http_connection"
+  priority                    = 200
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "8080"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.rg.name
+  network_security_group_name = azurerm_network_security_group.nsg_prod.name
 }
 
 # Create network interface
@@ -130,6 +146,11 @@ resource "azurerm_virtual_machine" "vm_prod" {
       "sudo ansible --version",
       "sudo apt-get install -y openjdk-8-jdk"
     ]
+  }
+
+  provisioner "file" {
+    source      = "install_start_jenkins.sh"
+    destination = "/etc/install_start_jenkins.sh"
   }
 }
 

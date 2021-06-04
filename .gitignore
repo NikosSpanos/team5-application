@@ -10,6 +10,7 @@
 /development_environment/production-private-key-connector
 /development_environment/development-public-ip-value
 /development_environment/production-public-ip-value
+/development_environment/mykey
 /production_environment/.terraform/
 /production_environment/terraform.tfstate
 /production_environment/modules/*.pem
@@ -20,4 +21,5 @@
 /production_environment/public-ip-value
 /production_environment/production-private-key-connector
 /production_environment/production-public-ip-value
+/production_environment/mykey
 /TBD

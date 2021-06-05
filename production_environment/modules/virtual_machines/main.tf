@@ -137,7 +137,6 @@ resource "azurerm_virtual_machine" "vm_prod" {
   }
 
   provisioner "remote-exec" {
-
     inline = [
       "sudo apt update",
       "sudo apt install software-properties-common",
@@ -150,7 +149,13 @@ resource "azurerm_virtual_machine" "vm_prod" {
 
   provisioner "file" {
     source      = "install_start_jenkins.sh"
-    destination = "/tmp/install_start_jenkins.sh"
+    destination = "/tmp/install_start_jenkins.sh" #tmp folder is deleted after the vm is restarted
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo mv /tmp/install_start_jenkins.sh /home/${var.admin_username}/"
+    ]
   }
 }
 

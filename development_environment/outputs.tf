@@ -7,6 +7,7 @@ output "output_server_name" {
 }
 
 output "output_mysql_admin_username" {
+  sensitive = true
   value = module.mysql.administrator_login
 }
 

@@ -26,9 +26,4 @@
 /development_environment/*.tfvars
 /production_environment/*.tfvars
 /development_environment/*.auto.tfvars
-/development_environment/*.auto.tfvars
-/development_environment/install_start_jenkins.sh
-/production_environment/jenkins_connect_firefox.sh
-/development_environment/install_start_jenkins.sh
-/production_environment/jenkins_connect_firefox.sh
-
+/production_environment/*.auto.tfvars

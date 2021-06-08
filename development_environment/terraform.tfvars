@@ -3,13 +3,12 @@ Terraform variables that should be configured from the user.
 Variable 1: prefix 
 --description: string text var to distinguish infrastructure from development to production resourse
 --values accepted: [production, development]
-
-Variable 2: output_path
---description: the path to write ssh private key and public ip address to local machine where the terraform apply is executed
---values accepted: any valid path except the root folder. Root folder is not adviced because terraform will need sudo access.
-
-Variable 3: vm_connection_script_path
---description: the path folder where the vm_connection.sh script exists. This script is downloaded along with cloned git repository.
---values accepted: a valid path
 */
 prefix = "development"
+mysql_master_username = "codehubTeam5"
+mysql_master_password = "H@Sh1CoR3!"
+public_ip_cicd_vm = "20.101.112.65"
+subscription_id = "3ec335d6-1a42-463b-95e2-4fde3269c94d"
+client_appId = "ae3d9551-4b0a-4381-893e-ca7e44f83198"
+client_password = "CWV-1cnnUVAswO5-GEonM6M5Bawj-LSEaH"
+tenant_id = "b1732512-60e5-48fb-92e8-8d6902ac1349"

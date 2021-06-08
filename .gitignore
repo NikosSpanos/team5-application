@@ -23,3 +23,7 @@
 /production_environment/production-public-ip-value
 /production_environment/mykey
 /TBD
+/development_environment/*.tfvars
+/production_environment/*.tfvars
+/development_environment/*.auto.tfvars
+/development_environment/*.auto.tfvars

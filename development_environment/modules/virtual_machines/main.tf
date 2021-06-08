@@ -147,14 +147,12 @@ resource "azurerm_virtual_machine" "vm_dev" {
     ]
   }
 
-  provisioner "file" {
-    source      = "install_start_jenkins.sh"
-    destination = "/tmp/install_start_jenkins.sh"
-  }
-
   provisioner "remote-exec" {
     inline = [
-      "sudo mv /tmp/install_start_jenkins.sh /home/${var.admin_username}/"
+      "sudo apt-get update",
+      "sudo apt install -y docker.io",
+      "sudo systemctl start docker",
+      "sudo systemctl enable docker"
     ]
   }
 }

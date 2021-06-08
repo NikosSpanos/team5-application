@@ -18,13 +18,21 @@ variable "tags" {
 }
 
 variable "mysql_master_username" {
-	description = "MySql server master username"
-	default = "codehubTeam5"
+  description = "Server administrator username"
+  type        = string
+  sensitive   = true
 }
 
 variable "mysql_master_password" {
-	description = "MySql server master password"
-  default = "H@Sh1CoR3!"
+  description = "Server administrator password"
+  type        = string
+  sensitive   = true
+}
+
+variable "public_ip_cicd_vm" {
+  description = "Public IP address of CICD pipeline vm instance"
+  type        = string
+  sensitive   = true
 }
 
 variable "admin_username" {
@@ -33,18 +41,21 @@ variable "admin_username" {
 }
 
 variable "subscription_id"{
-    description = "The subscription id"
-    default = "3ec335d6-1a42-463b-95e2-4fde3269c94d"
+  type        = string
+  sensitive   = true
 }
 
 variable "client_appId"{
-    default = "ae3d9551-4b0a-4381-893e-ca7e44f83198"
+  type        = string
+  sensitive   = true
 }
 
 variable "client_password"{
-    default = "CWV-1cnnUVAswO5-GEonM6M5Bawj-LSEaH"
+  type        = string
+  sensitive   = true
 }
 
 variable "tenant_id"{
-    default = "b1732512-60e5-48fb-92e8-8d6902ac1349"
+  type        = string
+  sensitive   = true
 }

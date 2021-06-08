@@ -41,10 +41,18 @@ resource "azurerm_mysql_database" "mysql_db_dev" {
 }
 
 # This rule is to enable the 'Allow access to Azure services' checkbox
-resource "azurerm_mysql_firewall_rule" "mysql_firewall_dev" {
-  name                = "${var.prefix}-mysql-firewall"
+resource "azurerm_mysql_firewall_rule" "mysql_firewall_rule_dev_vm" {
+  name                = "development-vm-rule"
   resource_group_name = var.rg.name
   server_name         = azurerm_mysql_server.mysql_server_dev.name
-  start_ip_address    = "0.0.0.0"
-  end_ip_address      = "0.0.0.0"
+  start_ip_address    = "${var.vm_instance.public_ip_address}"
+  end_ip_address      = "${var.vm_instance.public_ip_address}"
+}
+
+resource "azurerm_mysql_firewall_rule" "mysql_firewall_rule_cicd_vm" {
+  name                = "cicd-pipeline-rule"
+  resource_group_name = var.rg.name
+  server_name         = azurerm_mysql_server.mysql_server_dev.name
+  start_ip_address    = var.public_ip_cicd_vm
+  end_ip_address      = var.public_ip_cicd_vm
 }

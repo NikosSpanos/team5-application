@@ -42,9 +42,11 @@ module "virtual_machines" {
 
 module "mysql" {
     source = "./modules/mysql"
+    vm_instance = module.virtual_machines
     rg = azurerm_resource_group.rg_dev
     location = var.location
     prefix = var.prefix
     mysql_master_username = var.mysql_master_username
     mysql_master_password = var.mysql_master_password
+    public_ip_cicd_vm = var.public_ip_cicd_vm
 }

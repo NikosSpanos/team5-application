@@ -18,10 +18,10 @@
 Execute the bash script: *install_start_jenkins.sh* (execute this script if your don't want to follow the instructions) --*IMPORTANT: this script should be executed on the vm instance*
 
 ### Start Jenkins
-Possible errors that Jenkins might not start:
-   a. Port 8080 is not exposed. To solve this issue go to the infrastructure and check that a security rule (https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) is created for this port.
-   b. Your tfstate does not include the public ip address as an output. It's important to save the public ip of the virtual machine on tfstate because the scripts access it.
-   c. You need to install *jq* to execute the script.
+Possible errors that Jenkins might not start:<br>
+   a. Port 8080 is not exposed. To solve this issue go to the infrastructure and check that a security rule (https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) is created for this port. <br>
+   b. Your tfstate does not include the public ip address as an output. It's important to save the public ip of the virtual machine on tfstate because the scripts access it. <br>
+   c. You need to install *jq* to execute the script. <br>
    d. You dont have installed firefox command. The specific command is pre-installed with Ubuntu 18.04LTS distribution.
 
 Once jenkins opens on firefox you will be prompted to paste the *initialAdminPassword*. To retrieve it run the command (on the vm's erminal with jenkins installed): **cat /var/lib/jenkins/secrets/initialAdminPassword**

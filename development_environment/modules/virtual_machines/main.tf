@@ -139,10 +139,6 @@ resource "azurerm_virtual_machine" "vm_dev" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt update",
-      "sudo apt install -y software-properties-common",
-      "sudo add-apt-repository --yes --update ppa:ansible/ansible",
-      "sudo apt install -y ansible",
-      "sudo ansible --version",
       "sudo apt-get install -y openjdk-8-jdk"
     ]
   }

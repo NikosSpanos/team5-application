@@ -131,7 +131,7 @@ resource "azurerm_virtual_machine" "vm_prod" {
 
   connection {
       type        = "ssh"
-      user        = "${var.admin_username}" #or root?
+      user        = "${var.admin_username}"
       private_key = "${chomp(tls_private_key.ssh_prod.private_key_pem)}"
       host        = "${azurerm_public_ip.public_ip_prod.ip_address}"
   }
@@ -139,22 +139,28 @@ resource "azurerm_virtual_machine" "vm_prod" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt update",
-      "sudo apt install software-properties-common",
-      "sudo add-apt-repository --yes --update ppa:ansible/ansible",
-      "sudo apt install -y ansible",
-      "sudo ansible --version",
-      "sudo apt-get install -y openjdk-8-jdk"
+      "sudo apt-get install -y openjdk-8-jdk",
+      "sudo apt install -y python2.7 python-pip",
+      "pip install setuptools"
     ]
-  }
-
-  provisioner "file" {
-    source      = "install_start_jenkins.sh"
-    destination = "/tmp/install_start_jenkins.sh" #tmp folder is deleted after the vm is restarted
   }
 
   provisioner "remote-exec" {
     inline = [
-      "sudo mv /tmp/install_start_jenkins.sh /home/${var.admin_username}/"
+      "sudo apt-get update",
+      "sudo apt install -y docker.io",
+      "sudo systemctl start docker",
+      "sudo systemctl enable docker"
+    ]
+  }
+
+  provisioner "local-exec" {
+    inline = [
+      "bash ${var.cicd_pipeline_repo_path}/vm_connection.sh",
+      "sudo mkdir -p /tmp/resources",
+      "echo '${chomp(tls_private_key.ssh_prod.private_key_pem)}' > /tmp/resources/${var.prefix}-private-key-connector",
+      "sudo mv /tmp/resources/${var.prefix}-private-key-connector /home/${var.admin_username}/${var.prefix}-private-key-connector",
+      "echo '${azurerm_public_ip.public_ip_prod.ip_address} ansible_user=${var.admin_username} ansible_ssh_private_key=/home/${var.admin_username}/${var.prefix}-private-key-connector' | sudo tee -a /etc/ansible/hosts"
     ]
   }
 }

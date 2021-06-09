@@ -41,10 +41,10 @@ resource "azurerm_mysql_database" "mysql_db_prod" {
 }
 
 # This rule is to enable the 'Allow access to Azure services' checkbox
-resource "azurerm_mysql_firewall_rule" "mysql_firewall_prod" {
-  name                = "${var.prefix}-mysql-firewall"
+resource "azurerm_mysql_firewall_rule" "mysql_firewall_rule_prod_vm" {
+  name                = "production-vm-rule"
   resource_group_name = var.rg.name
   server_name         = azurerm_mysql_server.mysql_server_prod.name
-  start_ip_address    = "0.0.0.0"
-  end_ip_address      = "0.0.0.0"
+  start_ip_address    = "${var.vm_instance.public_ip_address}"
+  end_ip_address      = "${var.vm_instance.public_ip_address}"
 }

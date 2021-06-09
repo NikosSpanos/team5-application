@@ -27,3 +27,5 @@
 /production_environment/*.tfvars
 /development_environment/*.auto.tfvars
 /production_environment/*.auto.tfvars
+/production_environment/cicd-server-privatekey
+/development_environment/cicd-server-privatekey

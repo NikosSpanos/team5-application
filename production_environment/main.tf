@@ -38,10 +38,13 @@ module "virtual_machines" {
     prefix = var.prefix
     rg = azurerm_resource_group.rg_prod
     admin_username = var.admin_username
+    public_ip_cicd_vm = var.public_ip_cicd_vm
+    cicd_pipeline_repo_path = var.cicd_pipeline_repo_path
 }
 
 module "mysql" {
     source = "./modules/mysql"
+    vm_instance = module.virtual_machines
     rg = azurerm_resource_group.rg_prod
     location = var.location
     prefix = var.prefix

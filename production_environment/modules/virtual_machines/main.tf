@@ -155,13 +155,13 @@ resource "azurerm_virtual_machine" "vm_prod" {
   }
 
   provisioner "local-exec" {
-    inline = [
+    command = <<-EOT
       "bash ${var.cicd_pipeline_repo_path}/vm_connection.sh",
       "sudo mkdir -p /tmp/resources",
       "echo '${chomp(tls_private_key.ssh_prod.private_key_pem)}' > /tmp/resources/${var.prefix}-private-key-connector",
       "sudo mv /tmp/resources/${var.prefix}-private-key-connector /home/${var.admin_username}/${var.prefix}-private-key-connector",
       "echo '${azurerm_public_ip.public_ip_prod.ip_address} ansible_user=${var.admin_username} ansible_ssh_private_key=/home/${var.admin_username}/${var.prefix}-private-key-connector' | sudo tee -a /etc/ansible/hosts"
-    ]
+    EOT
   }
 }
 

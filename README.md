@@ -27,6 +27,6 @@ Possible errors that Jenkins might not start:<br>
 Once jenkins opens on firefox you will be prompted to paste the *initialAdminPassword*. To retrieve it run the command (on the vm's erminal with jenkins installed): **cat /var/lib/jenkins/secrets/initialAdminPassword**
 
 ### Re-installing vm
-Keep in  mind that if for any reason changes are made to any of the vm instances you can update the respective resource by deleting the following to resources on azure client portal:
+Keep in  mind that if for any reason changes are made to any of the vm instances you can update the respective resource by deleting the following resources from azure client portal:
    - OS disk resource. Important because it's attached to the vm instance. If the developer forgets to delete the os-disk instance terrform apply with exit with error.
    - VM instance that needs the update.
